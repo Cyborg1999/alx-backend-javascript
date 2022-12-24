@@ -1,12 +1,12 @@
 import signUpUser from './4-user-promise';
 import uploadPhoto from './5-photo-reject';
 
-export default function handleProfileSignup(firstName, lastName, fileName) {
+export default function handleProfileSignup (firstName, lastName, fileName) {
   return Promise.all([
     signUpUser(firstName, lastName),
     uploadPhoto(fileName).catch((error) => {
       return error;
-    }),
+    })
   ]).then((values) => {
     let status;
 
@@ -16,7 +16,7 @@ export default function handleProfileSignup(firstName, lastName, fileName) {
       else status = 'fulfilled';
       responses.push({
         status,
-        value,
+        value
       });
     });
 
