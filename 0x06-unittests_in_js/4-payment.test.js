@@ -1,22 +1,18 @@
-/* eslint-disable no-unused-expressions */
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { spy, stub } from 'sinon';
-import { expect } from 'chai';
-import Utils from './utils';
-import sendPaymentRequestToApi from './4-payment';
+const sinon = require('sinon');
+const chai = require('chai');
+const sendPaymentRequestToApi = require('./4-payment');
+const Utils = require('./utils');
 
-describe('sendPaymentRequestToApi', () => {
-  it('sendPaymentRequestToApi calls console.log with the right arguments', () => {
-    const bigBrother = spy(console);
-    const dummy = stub(Utils, 'calculateNumber');
+const { expect } = chai;
 
-    dummy.returns(10);
-    sendPaymentRequestToApi(100, 20);
-    expect(dummy.calledWith('SUM', 100, 20)).to.be.true;
-    expect(dummy.callCount).to.be.equal(1);
-    expect(bigBrother.log.calledWith('The total is: 10')).to.be.true;
-    expect(bigBrother.log.callCount).to.be.equal(1);
-    dummy.restore();
-    bigBrother.log.restore();
+describe('PaymentApi', () => {
+  it('uses calculateNumber', () => {
+    const callback = sinon.stub(Utils, 'calculateNumber').returns(10);
+    const csl = sinon.spy(console, 'log');
+    sendPaymentRequestToApi(200, 400);
+    expect(callback.calledWith('SUM', 200, 400)).to.be.true;
+    expect(csl.calledOnceWithExactly('The total is: 10'));
+    callback.restore();
+    csl.restore();
   });
 });
